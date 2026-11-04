@@ -8,7 +8,7 @@ Validar o fluxo informacional do MVP (leitura → validação → comparação �
 
 ## Problema e público-alvo
 
-O público-alvo é o produtor-operador do minifúndio em Cotia. O problema atual é a dispersão de leituras e limites, dificultando análise rápida de condições fora do padrão.
+O público-alvo é o produtor-operador de minifúndio. O problema atual é a dispersão de leituras e limites, dificultando análise rápida de condições fora do padrão.
 
 ## Funcionalidades incluídas
 
@@ -20,7 +20,7 @@ O público-alvo é o produtor-operador do minifúndio em Cotia. O problema atual
 
 ## Limitações e fora do escopo
 
-- Sem sensores físicos, ESP32 ou MicroPython.
+- Sem sensores físicos, ou microcontrolador.
 - Sem relés, bombas, ventiladores ou iluminação.
 - Sem acionamento automático.
 - Sem notificações externas (WhatsApp/SMS/e-mail/push).
@@ -94,7 +94,7 @@ pytest
 
 ## Evolução futura (não implementada)
 
-- Integração com ESP32 e sensores reais.
+- Integração com microcontrolador e sensores reais.
 - Persistência histórica com PostgreSQL.
 
 ## Relação com ODS

@@ -1,17 +1,24 @@
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from app.services.monitoring import MonitoringService
+from app.services.readings import ReadingCycleService
 from app.services.simulation import load_dataset
 
 
 web_bp = Blueprint("web", __name__)
 monitoring_service = MonitoringService()
 DATASET = load_dataset()
+AUTO_REFRESH_SECONDS = 30
+reading_service = ReadingCycleService(DATASET)
 
 
 @web_bp.get("/")
 def dashboard():
-    leitura = DATASET[-1]
+    if request.args.get("atualizar") == "1":
+        leitura = reading_service.advance()
+    else:
+        leitura = reading_service.current
+
     alertas = monitoring_service.compare_leitura(leitura)
     return render_template(
         "dashboard.html",
@@ -19,6 +26,8 @@ def dashboard():
         limites=monitoring_service.limites,
         alertas=alertas,
         estado=monitoring_service.estado(leitura),
+        auto_refresh_seconds=AUTO_REFRESH_SECONDS,
+        atualizar_url=url_for("web.dashboard", atualizar=1),
     )
 
 

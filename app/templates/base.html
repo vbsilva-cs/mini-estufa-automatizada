@@ -7,16 +7,25 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
   </head>
   <body>
-    <header>
-      <h1>mini-estufa-automatizada</h1>
-      <p>Dataset simulado e determinístico para validação de fluxo.</p>
-      <nav>
-        <a href="{{ url_for('web.dashboard') }}">Visão geral</a>
-        <a href="{{ url_for('web.limites') }}">Limites</a>
-        <a href="{{ url_for('web.alertas') }}">Alertas</a>
+    <header class="site-header">
+      <div class="brand">
+        <h1>Mini Estufa</h1>
+        <p>Monitoramento ambiental</p>
+      </div>
+      <span class="chip">Dados simulados</span>
+      <nav class="top-nav" aria-label="Navegação principal">
+        <a class="{% if active_page == 'dashboard' %}active{% endif %}" href="{{ url_for('web.dashboard') }}">Visão geral</a>
+        <a class="{% if active_page == 'limites' %}active{% endif %}" href="{{ url_for('web.limites') }}">Limites</a>
+        <a class="{% if active_page == 'alertas' %}active{% endif %}" href="{{ url_for('web.alertas') }}">Alertas</a>
       </nav>
     </header>
 
     <main>{% block content %}{% endblock %}</main>
+
+    <nav class="bottom-nav" aria-label="Navegação inferior">
+      <a class="{% if active_page == 'dashboard' %}active{% endif %}" href="{{ url_for('web.dashboard') }}">Visão geral</a>
+      <a class="{% if active_page == 'limites' %}active{% endif %}" href="{{ url_for('web.limites') }}">Limites</a>
+      <a class="{% if active_page == 'alertas' %}active{% endif %}" href="{{ url_for('web.alertas') }}">Alertas</a>
+    </nav>
   </body>
 </html>

@@ -1,26 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
+<section class="alerts-page">
   <h2>Alertas e leituras</h2>
-  <form method="get">
+  <form method="get" class="filters">
     <label for="parametro">Filtrar por parâmetro</label>
     <select id="parametro" name="parametro">
       <option value="">Todos</option>
-      <option value="temperatura_c" {% if parametro == 'temperatura_c' %}selected{% endif %}>temperatura_c</option>
-      <option value="umidade_pct" {% if parametro == 'umidade_pct' %}selected{% endif %}>umidade_pct</option>
-      <option value="luminosidade_lux" {% if parametro == 'luminosidade_lux' %}selected{% endif %}>luminosidade_lux</option>
+      {% for chave, meta in parametros.items() %}
+      <option value="{{ chave }}" {% if parametro == chave %}selected{% endif %}>{{ meta.nome }}</option>
+      {% endfor %}
+    </select>
+
+    <label for="status">Filtrar por status</label>
+    <select id="status" name="status">
+      <option value="">Todos</option>
+      <option value="acima" {% if status == 'acima' %}selected{% endif %}>Acima do limite</option>
+      <option value="abaixo" {% if status == 'abaixo' %}selected{% endif %}>Abaixo do limite</option>
     </select>
     <button type="submit">Aplicar filtro</button>
   </form>
 
   {% if alertas %}
-  <ul>
+  <ul class="alerts-list">
     {% for alerta in alertas %}
-    <li>{{ alerta.instante }} — {{ alerta.parametro }} = {{ alerta.valor }} — {{ alerta.mensagem }}</li>
+    {% set meta = parametros[alerta.parametro] %}
+    {% set limite = limites[alerta.parametro] %}
+    {% set acima = alerta.valor > limite.maximo %}
+    <li>
+      <p><strong>{{ alerta.instante }}</strong></p>
+      <p>{{ meta.nome }}: {{ alerta.valor }} {{ meta.unidade }}</p>
+      <p>Status: {% if acima %}acima do máximo{% else %}abaixo do mínimo{% endif %}</p>
+      <p>
+        {% if acima %}
+        {{ meta.nome }} {{ alerta.valor }} {{ meta.unidade }} está acima do máximo de {{ limite.maximo }} {{ meta.unidade }}.
+        {% else %}
+        {{ meta.nome }} {{ alerta.valor }} {{ meta.unidade }} está abaixo do mínimo de {{ limite.minimo }} {{ meta.unidade }}.
+        {% endif %}
+      </p>
+      <details>
+        <summary>Detalhe da leitura</summary>
+        <p>Regra aplicada: {{ limite.minimo }}–{{ limite.maximo }} {{ meta.unidade }}</p>
+        <p>Mensagem técnica: {{ alerta.mensagem }}</p>
+      </details>
+    </li>
     {% endfor %}
   </ul>
   {% else %}
-  <p>Nenhum alerta encontrado para o filtro informado.</p>
+  <p>Nenhum alerta no período.</p>
   {% endif %}
+  <p><a href="{{ url_for('web.dashboard') }}">Voltar à visão geral</a></p>
 </section>
 {% endblock %}

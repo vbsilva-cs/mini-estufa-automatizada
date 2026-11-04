@@ -1,42 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
-<section>
-  <h2>Configuração de limites</h2>
+<section class="form-page">
+  <h2>Limites de monitoramento</h2>
+  <p class="helper-text">Defina valores de referência para classificar leituras da estufa nesta sessão.</p>
   {% if status == 'ok' %}
-  <p class="msg-ok" role="status">Limites atualizados com sucesso.</p>
+  <p class="msg-ok" role="status">Limites salvos nesta sessão.</p>
   {% endif %}
-
-  {% if erro %}
-  <p class="msg-erro" role="alert">{{ erro }}</p>
-  {% endif %}
-
   <form method="post">
     {% for parametro, limite in limites.items() %}
+    {% set meta = parametros[parametro] %}
     <fieldset>
-      <legend>{{ parametro }}</legend>
-      <label for="{{ parametro }}_minimo">minimo</label>
+      <legend>{{ meta.nome }} ({{ meta.unidade }})</legend>
+      <label for="{{ parametro }}_minimo">Mínimo</label>
       <input
         id="{{ parametro }}_minimo"
         name="{{ parametro }}_minimo"
         type="number"
         step="0.1"
         required
-        value="{{ limite.minimo }}"
+        value="{{ valores[parametro]['minimo'] }}"
       />
+      {% if erros.get(parametro ~ '_minimo') %}
+      <p class="msg-erro" role="alert">{{ erros[parametro ~ '_minimo'] }}</p>
+      {% endif %}
 
-      <label for="{{ parametro }}_maximo">maximo</label>
+      <label for="{{ parametro }}_maximo">Máximo</label>
       <input
         id="{{ parametro }}_maximo"
         name="{{ parametro }}_maximo"
         type="number"
         step="0.1"
         required
-        value="{{ limite.maximo }}"
+        value="{{ valores[parametro]['maximo'] }}"
       />
+      {% if erros.get(parametro ~ '_maximo') %}
+      <p class="msg-erro" role="alert">{{ erros[parametro ~ '_maximo'] }}</p>
+      {% endif %}
     </fieldset>
     {% endfor %}
-
-    <button type="submit">Salvar limites</button>
+    <p class="helper-text">Use estes limites como referência do cultivo; mínimo deve ser menor que máximo.</p>
+    <div class="actions">
+      <button type="submit">Salvar limites</button>
+      <a href="{{ url_for('web.dashboard') }}">Cancelar</a>
+    </div>
   </form>
 </section>
 {% endblock %}

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <h2>Estado da estufa</h2>
+  <p>
+    Estado atual:
+    <strong class="estado estado-{{ estado }}">
+      {% if estado == 'normal' %}NORMAL{% else %}ATENÇÃO{% endif %}
+    </strong>
+  </p>
+  <p>Instante da leitura: {{ leitura.instante }}</p>
+</section>
+
+<section>
+  <h2>Leitura atual</h2>
+  <ul>
+    <li>temperatura_c: {{ leitura.temperatura_c }} °C</li>
+    <li>umidade_pct: {{ leitura.umidade_pct }} %</li>
+    <li>luminosidade_lux: {{ leitura.luminosidade_lux }} lux</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Limites ativos</h2>
+  <ul>
+    {% for parametro, limite in limites.items() %}
+    <li>{{ parametro }}: {{ limite.minimo }} até {{ limite.maximo }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+<section>
+  <h2>Alertas visuais</h2>
+  {% if alertas %}
+  <ul>
+    {% for alerta in alertas %}
+    <li>{{ alerta.parametro }} = {{ alerta.valor }} ({{ alerta.mensagem }})</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>Nenhum alerta para a leitura atual.</p>
+  {% endif %}
+</section>
+{% endblock %}

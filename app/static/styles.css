@@ -1,0 +1,64 @@
+:root {
+  color-scheme: light;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 1rem;
+  line-height: 1.4;
+}
+
+header,
+main {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+nav {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+nav a,
+button,
+input,
+select {
+  font: inherit;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #0044cc;
+  outline-offset: 2px;
+}
+
+.estado-normal {
+  color: #006400;
+}
+
+.estado-atencao {
+  color: #8b0000;
+}
+
+.msg-ok {
+  color: #006400;
+}
+
+.msg-erro {
+  color: #8b0000;
+  font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  body {
+    padding: 0.75rem;
+  }
+
+  fieldset {
+    margin: 0 0 1rem;
+  }
+}

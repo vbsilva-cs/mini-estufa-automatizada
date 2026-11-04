@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <h2>Configuração de limites</h2>
+  {% if status == 'ok' %}
+  <p class="msg-ok" role="status">Limites atualizados com sucesso.</p>
+  {% endif %}
+
+  {% if erro %}
+  <p class="msg-erro" role="alert">{{ erro }}</p>
+  {% endif %}
+
+  <form method="post">
+    {% for parametro, limite in limites.items() %}
+    <fieldset>
+      <legend>{{ parametro }}</legend>
+      <label for="{{ parametro }}_minimo">minimo</label>
+      <input
+        id="{{ parametro }}_minimo"
+        name="{{ parametro }}_minimo"
+        type="number"
+        step="0.1"
+        required
+        value="{{ limite.minimo }}"
+      />
+
+      <label for="{{ parametro }}_maximo">maximo</label>
+      <input
+        id="{{ parametro }}_maximo"
+        name="{{ parametro }}_maximo"
+        type="number"
+        step="0.1"
+        required
+        value="{{ limite.maximo }}"
+      />
+    </fieldset>
+    {% endfor %}
+
+    <button type="submit">Salvar limites</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,2 @@
+# mini-estufa-automatizada
+Plataforma web responsiva, acessível por celular ou desktop, que simula leituras de sensores de uma miniestufa, compara os valores com limites configuráveis e apresenta o estado da estufa e alertas visuais. O MVP permite validar o fluxo de informações e os requisitos antes da futura integração com sensores físicos.

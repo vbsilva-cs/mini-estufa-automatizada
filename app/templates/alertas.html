@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <h2>Alertas e leituras</h2>
+  <form method="get">
+    <label for="parametro">Filtrar por parâmetro</label>
+    <select id="parametro" name="parametro">
+      <option value="">Todos</option>
+      <option value="temperatura_c" {% if parametro == 'temperatura_c' %}selected{% endif %}>temperatura_c</option>
+      <option value="umidade_pct" {% if parametro == 'umidade_pct' %}selected{% endif %}>umidade_pct</option>
+      <option value="luminosidade_lux" {% if parametro == 'luminosidade_lux' %}selected{% endif %}>luminosidade_lux</option>
+    </select>
+    <button type="submit">Aplicar filtro</button>
+  </form>
+
+  {% if alertas %}
+  <ul>
+    {% for alerta in alertas %}
+    <li>{{ alerta.instante }} — {{ alerta.parametro }} = {{ alerta.valor }} — {{ alerta.mensagem }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>Nenhum alerta encontrado para o filtro informado.</p>
+  {% endif %}
+</section>
+{% endblock %}

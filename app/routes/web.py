@@ -3,25 +3,24 @@ from datetime import UTC, datetime
 from flask import Blueprint, redirect, render_template, request, session, url_for
 
 from app.services.monitoring import MonitoringService
-from app.services.reading_stream import ReadingStreamService
+from app.services.readings import ReadingCycleService
 from app.services.simulation import load_dataset
 
 
 web_bp = Blueprint("web", __name__)
 monitoring_service = MonitoringService()
 DATASET = load_dataset()
-reading_stream_service = ReadingStreamService(DATASET)
-PARAMETROS = {
-    "temperatura_c": {"nome": "Temperatura", "unidade": "°C"},
-    "umidade_pct": {"nome": "Umidade", "unidade": "%"},
-    "luminosidade_lux": {"nome": "Luminosidade", "unidade": "lux"},
-}
+AUTO_REFRESH_SECONDS = 30
+reading_service = ReadingCycleService(DATASET)
 
 
 @web_bp.get("/")
 def dashboard():
-    leitura_cursor = session.get("leitura_cursor", 0)
-    leitura = reading_stream_service.current(leitura_cursor)
+    if request.args.get("atualizar") == "1":
+        leitura = reading_service.advance()
+    else:
+        leitura = reading_service.current
+
     alertas = monitoring_service.compare_leitura(leitura)
     proxima_acao = "Nenhuma ação imediata necessária."
     descricao_alerta = "Todos os parâmetros estão na faixa esperada."
@@ -37,11 +36,8 @@ def dashboard():
         limites=monitoring_service.limites,
         alertas=alertas,
         estado=monitoring_service.estado(leitura),
-        parametros=PARAMETROS,
-        ultima_atualizacao=reading_stream_service.elapsed_label(session.get("last_refresh_at")),
-        proxima_acao=proxima_acao,
-        descricao_alerta=descricao_alerta,
-        active_page="dashboard",
+        auto_refresh_seconds=AUTO_REFRESH_SECONDS,
+        atualizar_url=url_for("web.dashboard", atualizar=1),
     )
 
 

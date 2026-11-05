@@ -13,6 +13,7 @@ O público-alvo é o produtor-operador de minifúndio. O problema atual é a dis
 ## Funcionalidades incluídas
 
 - Exibição de `leitura` simulada com `temperatura_c`, `umidade_pct` e `luminosidade_lux`.
+- Atualização dinâmica da leitura atual por requisição manual e autoatualização a cada 30 segundos.
 - Estado da estufa: **normal** ou **atenção**.
 - Edição de `limite` (`minimo`, `maximo`, `ativo`) em memória.
 - Exibição de `alerta` visual para valor fora do limite.

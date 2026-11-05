@@ -1,12 +1,4 @@
-import pytest
-
-from app.routes.web import monitoring_service
-from app.services.monitoring import MonitoringService
-
-
-@pytest.fixture(autouse=True)
-def reset_limites():
-    monitoring_service.limites = MonitoringService().limites
+from app.routes.web import AUTO_REFRESH_SECONDS, DATASET, monitoring_service
 
 
 def test_rf01_exibe_leituras_simuladas(client):
@@ -18,6 +10,31 @@ def test_rf01_exibe_leituras_simuladas(client):
     assert "Visão geral" in body
     assert "27,4" in body
     assert "78" in body
+
+
+def test_rf01_permite_novas_leituras_por_requisicao(client):
+    response_inicial = client.get("/")
+    response_atualizada = client.get("/?atualizar=1")
+    body_atualizado = response_atualizada.data.decode("utf-8")
+
+    assert response_inicial.status_code == 200
+    assert response_atualizada.status_code == 200
+    assert DATASET[0].instante in body_atualizado
+
+    for _ in range(len(DATASET) - 1):
+        client.get("/?atualizar=1")
+
+    response_ciclo = client.get("/?atualizar=1")
+    assert DATASET[0].instante in response_ciclo.data.decode("utf-8")
+
+
+def test_rf01_configura_autoatualizacao_no_dashboard(client):
+    response = client.get("/")
+    body = response.data.decode("utf-8")
+
+    assert response.status_code == 200
+    assert f'content="{AUTO_REFRESH_SECONDS};url=/?atualizar=1"' in body
+    assert "Atualizar leitura agora" in body
 
 
 def test_rf02_permite_editar_limites_validos(client):

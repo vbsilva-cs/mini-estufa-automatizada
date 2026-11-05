@@ -1,3 +1,12 @@
+import pytest
+
+from app.routes.web import monitoring_service
+from app.services.monitoring import MonitoringService
+
+
+@pytest.fixture(autouse=True)
+def reset_limites():
+    monitoring_service.limites = MonitoringService().limites
 from app.routes.web import AUTO_REFRESH_SECONDS, DATASET, monitoring_service
 
 

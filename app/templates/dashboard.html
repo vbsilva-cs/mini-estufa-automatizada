@@ -14,6 +14,15 @@
   </form>
 </section>
 
+{% if alertas %}
+<section class="state-banner attention" role="status">
+  <h3>Atenção: {{ alertas|length }} parâmetro{% if alertas|length > 1 %}s{% endif %} fora do limite</h3>
+  <p>{{ descricao_alerta }}</p>
+</section>
+{% else %}
+<section class="state-banner normal" role="status">
+  <h3>Condições dentro do limite</h3>
+  <p>Todos os parâmetros estão na faixa esperada.</p>
 <section>
   <h2>Leitura atual</h2>
   <form method="get" action="{{ url_for('web.dashboard') }}">

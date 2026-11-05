@@ -3,6 +3,7 @@
 ## Escopo
 
 - Exibir leituras simuladas de `temperatura_c`, `umidade_pct` e `luminosidade_lux`.
+- Permitir atualização manual e automática de leituras simuladas em ciclos contínuos.
 - Permitir edição de limites válidos (`minimo < maximo`).
 - Exibir estado da estufa e alertas visuais.
 

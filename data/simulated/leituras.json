@@ -1,15 +1,15 @@
 [
   {
     "instante": "2026-11-01T10:00:00Z",
-    "temperatura_c": 24.5,
-    "umidade_pct": 62.0,
-    "luminosidade_lux": 12000.0
+    "temperatura_c": 27.4,
+    "umidade_pct": 78.0,
+    "luminosidade_lux": 8400.0
   },
   {
     "instante": "2026-11-01T10:05:00Z",
-    "temperatura_c": 31.2,
-    "umidade_pct": 58.0,
-    "luminosidade_lux": 18000.0
+    "temperatura_c": 26.8,
+    "umidade_pct": 72.0,
+    "luminosidade_lux": 9100.0
   },
   {
     "instante": "2026-11-01T10:10:00Z",

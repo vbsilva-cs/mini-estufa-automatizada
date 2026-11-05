@@ -3,15 +3,15 @@
 <meta http-equiv="refresh" content="{{ auto_refresh_seconds }};url={{ atualizar_url }}" />
 {% endblock %}
 {% block content %}
-<section>
-  <h2>Estado da estufa</h2>
-  <p>
-    Estado atual:
-    <strong class="estado estado-{{ estado }}">
-      {% if estado == 'normal' %}NORMAL{% else %}ATENÇÃO{% endif %}
-    </strong>
-  </p>
-  <p>Instante da leitura: {{ leitura.instante }}</p>
+<section class="page-head">
+  <div>
+    <p class="kicker">Painel de monitoramento</p>
+    <h2>Visão geral</h2>
+    <p>Última atualização: <strong>{{ ultima_atualizacao }}</strong></p>
+  </div>
+  <form method="post" action="{{ url_for('web.atualizar_leitura') }}">
+    <button type="submit">Atualizar</button>
+  </form>
 </section>
 
 <section>
@@ -27,26 +27,54 @@
     <li>luminosidade_lux: {{ leitura.luminosidade_lux }} lux</li>
   </ul>
 </section>
+{% endif %}
 
 <section>
-  <h2>Limites ativos</h2>
-  <ul>
-    {% for parametro, limite in limites.items() %}
-    <li>{{ parametro }}: {{ limite.minimo }} até {{ limite.maximo }}</li>
+  <div class="section-title">
+    <h3>Leituras atuais</h3>
+    <span class="chip">{{ parametros|length }} parâmetros</span>
+  </div>
+  <div class="cards-grid">
+    {% for parametro, meta in parametros.items() %}
+    {% set limite = limites[parametro] %}
+    {% set valor = leitura|attr(parametro) %}
+    <article class="reading-card {% if valor < limite.minimo or valor > limite.maximo %}alerta{% endif %}">
+      <p class="card-title">{{ meta.nome }}</p>
+      <p class="card-value">
+        {% if parametro == 'umidade_pct' %}
+        {{ "%.0f"|format(valor) }}
+        {% elif parametro == 'luminosidade_lux' %}
+        {{ ("{:,.0f}".format(valor)).replace(",", ".") }}
+        {% else %}
+        {{ ("%.1f"|format(valor)).replace(".", ",") }}
+        {% endif %}
+        <span>{{ meta.unidade }}</span>
+      </p>
+      <p class="card-limit">
+        Faixa configurada
+        {% if parametro == 'umidade_pct' %}
+        <strong>{{ "%.0f"|format(limite.minimo) }}–{{ "%.0f"|format(limite.maximo) }} {{ meta.unidade }}</strong>
+        {% elif parametro == 'luminosidade_lux' %}
+        <strong>{{ ("{:,.0f}".format(limite.minimo)).replace(",", ".") }}–{{ ("{:,.0f}".format(limite.maximo)).replace(",", ".") }} {{ meta.unidade }}</strong>
+        {% else %}
+        <strong>{{ "%.0f"|format(limite.minimo) }}–{{ "%.0f"|format(limite.maximo) }} {{ meta.unidade }}</strong>
+        {% endif %}
+      </p>
+      {% if parametro == 'umidade_pct' %}
+      <a href="{{ url_for('web.alertas', parametro='umidade_pct') }}">Ver alerta</a>
+      {% endif %}
+    </article>
     {% endfor %}
-  </ul>
+  </div>
 </section>
 
-<section>
-  <h2>Alertas visuais</h2>
-  {% if alertas %}
-  <ul>
-    {% for alerta in alertas %}
-    <li>{{ alerta.parametro }} = {{ alerta.valor }} ({{ alerta.mensagem }})</li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>Nenhum alerta para a leitura atual.</p>
-  {% endif %}
+<section class="next-action">
+  <div>
+    <p class="kicker">Próxima ação</p>
+    <p>{{ proxima_acao }}</p>
+  </div>
+  <a class="btn-primary" href="{{ url_for('web.alertas') }}">Ver alertas</a>
 </section>
+
+<p class="disclaimer">Este protótipo usa somente dados simulados e não aciona equipamentos.</p>
 {% endblock %}

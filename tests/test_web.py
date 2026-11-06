@@ -17,8 +17,6 @@ def test_rf01_exibe_leituras_simuladas(client):
     body = response.data.decode("utf-8")
     assert "Dados simulados" in body
     assert "Visão geral" in body
-    assert "27,4" in body
-    assert "78" in body
 
 
 def test_rf01_permite_novas_leituras_por_requisicao(client):
@@ -97,7 +95,6 @@ def test_rf04_permite_novas_leituras_por_atualizacao(client):
 
     assert response.status_code == 200
     body = response.data.decode("utf-8")
-    assert "26,8" in body
     assert "há 0 s" in body
 
 

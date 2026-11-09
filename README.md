@@ -1,5 +1,9 @@
 # mini-estufa-automatizada
 
+<img width="1920" height="868" alt="Tela Principal" src="https://github.com/user-attachments/assets/2bdf9b96-fb3b-4ee7-b740-757d7ea0caf6" />
+
+## Sobre
+
 Aplicação web responsiva para monitoramento **simulado** de miniestufa.
 
 ## Objetivo

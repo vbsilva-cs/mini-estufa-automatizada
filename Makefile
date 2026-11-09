@@ -1,4 +1,4 @@
-Makefile# Nome do ambiente virtual
+Makefile
 VENV := venv
 
 # Instala dependências

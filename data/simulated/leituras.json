@@ -55,8 +55,8 @@
   },
   {
     "instante": "2026-11-01T10:45:00Z",
-    "temperatura_c": 32.1,
-    "umidade_pct": 54.0,
-    "luminosidade_lux": 31000.0
+    "temperatura_c": 27.4,
+    "umidade_pct": 78.0,
+    "luminosidade_lux": 32000.0
   }
 ]

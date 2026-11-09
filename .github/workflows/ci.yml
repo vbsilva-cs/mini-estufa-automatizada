@@ -1,4 +1,4 @@
-Yamlname: CI Flask Pytest
+name: CI Flask Pytest
 
 on:
   push:

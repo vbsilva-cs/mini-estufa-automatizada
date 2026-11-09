@@ -9,7 +9,7 @@
 
 ## Limitações obrigatórias
 
-- Sem sensores físicos, ou microcontroladores.
+- Sem sensores físicos, ESP32 ou MicroPython.
 - Sem relés, bombas, ventiladores ou iluminação.
 - Sem acionamento automático de atuadores.
 - Sem notificações externas.

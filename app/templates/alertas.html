@@ -20,6 +20,8 @@
     <button type="submit">Aplicar filtro</button>
   </form>
 
+  <h5 style="text-align:center; margin-block-start: 0.3em; margin-block-end: 0.1em;"><strong>Recentes</strong></h5>
+
   {% if alertas %}
   <ul class="alerts-list">
     {% for alerta in alertas %}
@@ -27,9 +29,10 @@
     {% set limite = limites[alerta.parametro] %}
     {% set acima = alerta.valor > limite.maximo %}
     <li>
-      <p><strong>{{ alerta.instante }}</strong></p>
-      <p>{{ meta.nome }}: {{ alerta.valor }} {{ meta.unidade }}</p>
-      <p>Status: {% if acima %}acima do máximo{% else %}abaixo do mínimo{% endif %}</p>
+      <h6 style="margin-block-start: 0em; margin-block-end: 1em;">{{ alerta.instante }}</h6>
+      <p><strong>{{ meta.nome }}</strong>
+        <span class="chip">Status: {% if acima %}Alerta{% else %}abaixo do mínimo{% endif %}</span>
+      </p>      
       <p>
         {% if acima %}
         {{ meta.nome }} {{ alerta.valor }} {{ meta.unidade }} está acima do máximo de {{ limite.maximo }} {{ meta.unidade }}.
@@ -38,9 +41,13 @@
         {% endif %}
       </p>
       <details>
-        <summary>Detalhe da leitura</summary>
-        <p>Regra aplicada: {{ limite.minimo }}–{{ limite.maximo }} {{ meta.unidade }}</p>
-        <p>Mensagem técnica: {{ alerta.mensagem }}</p>
+        <summary style="color: lightsteelblue;">Detalhe</summary>
+        <li>
+          <h5 style="margin-block-start: 0.1em; margin-block-end: 0.1em;"><strong>Regra aplicada: {{ limite.minimo }}–{{ limite.maximo }} {{ meta.unidade }}</strong></h5>
+          <h6 style="margin-block-start: 0em; margin-block-end: 0em;">Mensagem técnica: {{ alerta.mensagem }}</h6>
+          
+        
+        </li>
       </details>
     </li>
     {% endfor %}

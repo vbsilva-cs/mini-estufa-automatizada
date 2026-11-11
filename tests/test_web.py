@@ -81,4 +81,4 @@ def test_rf05_filtra_alertas_por_parametro(client):
     assert response.status_code == 200
     body = response.data.decode("utf-8")
     assert "Luminosidade" in body
-    assert "Temperatura: 27,4 °C" not in body
+    assert "Temperatura" not in body

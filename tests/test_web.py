@@ -80,5 +80,5 @@ def test_rf05_filtra_alertas_por_parametro(client):
 
     assert response.status_code == 200
     body = response.data.decode("utf-8")
-    assert "Luminosidade" in body
-    assert "Temperatura" not in body
+    assert "Mensagem técnica: luminosidade_lux fora do limite (7000.0 - 12000.0)" in body
+    assert "Mensagem técnica: temperatura_c fora do limite (18.0 - 30.0)" not in body

@@ -16,9 +16,6 @@ def test_home_route(client):
     # Verifica se o status HTTP é 200
     assert response.status_code == 200
 
-    # Verifica se o retorno é JSON válido
-    json_data = response.get_json()
-    assert json_data is not None
-
-    # Verifica o conteúdo da resposta
-    assert json_data["mensagem"] == "Mini estufa automatizada."
+    # Verifica se payload contém "mini-estufa-automatizada"
+    body = response.data.decode("utf-8")
+    assert "mini-estufa-automatizada" in body

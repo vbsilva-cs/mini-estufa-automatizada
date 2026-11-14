@@ -4,4 +4,10 @@ web_bp = Blueprint("web", __name__)
 
 @web_bp.route("/")
 def home():
-    return render_template("index.html")
+    try:
+        html = render_template("index.html")
+        return html
+    except:
+        return {"mensagem": "[ERRO] Servico indisponivel"}, 500
+
+    

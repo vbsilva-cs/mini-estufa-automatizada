@@ -1,14 +1,3 @@
-import pytest
-from app import app
-
-
-@pytest.fixture
-def client():
-    """Fixture que cria um cliente de teste para a aplicação Flask."""
-    with app.test_client() as client:
-        yield client
-
-
 def test_home_route(client):
     """Testa a rota principal."""
     response = client.get("/")
